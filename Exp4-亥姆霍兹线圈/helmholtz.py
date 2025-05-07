@@ -96,7 +96,7 @@ def Helmholtz_coils(r_low, r_up, d):
     print("磁场计算完成.")
     # 返回用于绘图的2D网格 (取一个phi切片) 和计算得到的磁场分量
     # return Y[:,:,0], Z[:,:,0], By, Bz
-    return Y[:, :, 0], Z[:, :, 0], By, Bz  # 返回 2D 切片
+    return Y, Z, By, Bz 
 
 def plot_magnetic_field_streamplot(r_coil_1, r_coil_2, d_coils):
     """
