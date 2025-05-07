@@ -31,6 +31,7 @@ def Helmholtz_coils(r_low, r_up, d):
     #    z_coords = np.linspace(-1.5*d, 1.5*d, 25)   # z坐标范围和点数 (调整范围以更好显示)
     # 学生代码开始
     phi_angles = np.linspace(0, 2 * np.pi, 100)  # 100个角度点
+    max_r = max(r_low, r_up)
     y_coords = np.linspace(-2 * max_r, 2 * max_r, 50)  # y坐标范围
     z_coords = np.linspace(-1.5 * d, 1.5 * d, 50)  # z坐标范围
     # 学生代码结束
@@ -87,6 +88,7 @@ def Helmholtz_coils(r_low, r_up, d):
     #    By = scaling_factor * By_unscaled
     #    Bz = scaling_factor * Bz_unscaled
     # 学生代码开始
+    scaling_factor = (MU0 * I) / (4 * np.pi)
     By = scaling_factor * By_unscaled
     Bz = scaling_factor * Bz_unscaled
     # 学生代码结束
@@ -118,9 +120,9 @@ def plot_magnetic_field_streamplot(r_coil_1, r_coil_2, d_coils):
     #    sy, sz = np.meshgrid(y_start_coords, 0) # 例如从z=0平面开始
     #    start_points = np.vstack([sy.ravel(), sz.ravel()]).T
     # 学生代码开始
-     start_points = np.meshgrid(np.linspace(-0.8 * r_coil_1, 0.8 * r_coil_1, 10), 
-                                np.zeros(10))  # 从z=0平面开始
-    start_points = np.vstack(start_points).T
+    y_start = np.linspace(-0.8 * r_coil_1, 0.8 * r_coil_1, 10)
+    z_start = np.zeros_like(y_start)
+    start_points = np.column_stack([y_start, z_start])
     # 学生代码结束
 
     # 3. 使用 plt.streamplot 绘制磁场流线图
@@ -150,8 +152,7 @@ def plot_magnetic_field_streamplot(r_coil_1, r_coil_2, d_coils):
     plt.plot([-r_coil_2, -r_coil_2], [d_coils / 2 - 0.02, d_coils / 2 + 0.02], 'r-', linewidth=3)
     plt.plot([r_coil_2, r_coil_2], [d_coils / 2 - 0.02, d_coils / 2 + 0.02], 'r-', linewidth=3)
     plt.text(0, d_coils / 2 + 0.1 * max(r_coil_1, r_coil_2), f'Coil 2 (R={r_coil_2})', color='red', ha='center')
-    # 学生代码结束
-
+    
     # 5. 设置图形属性
     #    plt.xlabel('y / m')
     #    plt.ylabel('z / m')
@@ -160,14 +161,11 @@ def plot_magnetic_field_streamplot(r_coil_1, r_coil_2, d_coils):
     #    plt.grid(True, linestyle='--', alpha=0.7)
     #    # plt.legend() # 如果有label的plot元素
     # 学生代码开始
-   plt.xlabel('y / m')
+    plt.xlabel('y / m')
     plt.ylabel('z / m')
     plt.title(f'Magnetic Field Lines (R1={r_coil_1}, R2={r_coil_2}, d={d_coils})')
     plt.gca().set_aspect('equal', adjustable='box')
     plt.grid(True, linestyle='--', alpha=0.7)
-
-    plt.show()
-    print("绘图完成.")
     # 学生代码结束
 
     plt.show()
