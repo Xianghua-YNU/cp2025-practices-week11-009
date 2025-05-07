@@ -30,10 +30,10 @@ def Helmholtz_coils(r_low, r_up, d):
     #    y_coords = np.linspace(-2*max_r, 2*max_r, 25) # y坐标范围和点数
     #    z_coords = np.linspace(-1.5*d, 1.5*d, 25)   # z坐标范围和点数 (调整范围以更好显示)
     # 学生代码开始
-    phi_angles = np.linspace(0, 2 * np.pi, 100)  # 100个角度点
+    phi_angles = np.linspace(0, 2 * np.pi, 20)  # 20个角度点
     max_r = max(r_low, r_up)
-    y_coords = np.linspace(-2 * max_r, 2 * max_r, 50)  # y坐标范围
-    z_coords = np.linspace(-1.5 * d, 1.5 * d, 50)  # z坐标范围
+    y_coords = np.linspace(-2 * max_r, 2 * max_r, 25)  # y坐标范围
+    z_coords = np.linspace(-1.5 * d, 1.5 * d, 25)  # z坐标范围
     # 学生代码结束
 
     # 2. 创建三维网格 Y, Z, Phi (用于后续计算)
