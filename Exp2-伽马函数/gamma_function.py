@@ -38,7 +38,7 @@ def integrand_gamma(x, a):
         elif a == 1:
             return 1.0
         else:  # a < 1
-            return np.inf # Placeholder
+            return np.inf 
     elif x > 0:
         # TODO: 计算 x > 0 的情况，建议使用 log/exp 技巧
         try:
@@ -165,10 +165,9 @@ def gamma_function(a):
             # TODO: 使用数值积分计算变换后的积分从 0 到 1
             integral_value, error = quad(transformed_integrand_gamma, 0, 1, args=(a,))
         else: # a <= 1
-            # TODO: 使用数值积分计算原始积分从 0 到 inf
+           
             integral_value, error = quad(integrand_gamma, 0, np.inf, args=(a,))
-            # Placeholder
-
+            
         print(f"Integration error estimate for a={a}: {error}") # Optional: print error
         return integral_value
 
@@ -190,9 +189,9 @@ if __name__ == "__main__":
     print("\n--- Task 4: 测试 Gamma(1.5) ---")
     a_test = 1.5
     # TODO: 调用 gamma_function 计算 gamma_calc
-    gamma_calc = 0.0 # Placeholder
+    gamma_calc =gamma_function(a_test)  # Placeholder
     # TODO: 计算精确值 gamma_exact = 0.5 * sqrt(pi)
-    gamma_exact = 0.0 # Placeholder
+    gamma_exact = 0.5 * sqrt(pi) 
     print(f"计算值 Gamma({a_test}) = {gamma_calc:.8f}")
     print(f"精确值 sqrt(pi)/2 = {gamma_exact:.8f}")
     # TODO: 计算并打印相对误差
@@ -205,9 +204,9 @@ if __name__ == "__main__":
     for a_int in [3, 6, 10]:
         print(f"\n计算 Gamma({a_int}):")
         # TODO: 调用 gamma_function 计算 gamma_int_calc
-        gamma_int_calc = 0.0 # Placeholder
+        gamma_int_calc = gamma_function(a_int)
         # TODO: 计算精确值 exact_factorial = float(factorial(a_int - 1))
-        exact_factorial = 0.0 # Placeholder
+        exact_factorial =float(factorial(a_int - 1))
         print(f"  计算值 = {gamma_int_calc:.8f}")
         print(f"  精确值 ({a_int-1}!) = {exact_factorial:.8f}")
         # TODO: 计算并打印相对误差
