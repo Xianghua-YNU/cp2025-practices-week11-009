@@ -103,24 +103,7 @@ def plot_integrands():
 # --- Task 4: 实现伽马函数计算 ---
 
 def transformed_integrand_gamma(z, a):
-    """
-    计算变换后的被积函数 g(z, a) = f(x(z), a) * dx/dz
-    其中 x = cz / (1-z), dx/dz = c / (1-z)^2, 且 c = a-1
-
-    Args:
-        z (float or np.array): 变换后的自变量 (积分区间 [0, 1])。
-        a (float): 伽马函数的参数。
-
-    Returns:
-        float or np.array: 变换后的被积函数值。
-
-    Hints:
-        - 这个变换主要对 a > 1 有意义 (c > 0)。需要考虑如何处理 a <= 1 的情况。
-        - 计算 f(x(z), a) 时可以调用上面实现的 integrand_gamma 函数。
-        - 处理 z=0 和 z=1 的边界情况。
-    """
-   def transformed_integrand_gamma(z, a):
-    """
+   
     改进后的变换被积函数，正确处理a=1的情况
     """
     if a == 1:
