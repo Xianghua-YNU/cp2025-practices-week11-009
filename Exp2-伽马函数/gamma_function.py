@@ -120,7 +120,10 @@ def transformed_integrand_gamma(z, a):
         - 处理 z=0 和 z=1 的边界情况。
     """
     # TODO: 实现变换后的被积函数计算逻辑
-  
+  if a == 1:
+     if z == 1:
+         return 0.0
+     return 0.0 
 
     # 首先处理 c = a-1
     c = a - 1.0
@@ -131,9 +134,9 @@ def transformed_integrand_gamma(z, a):
         # 或者，如果 gamma_function 保证只在 a>1 时调用此函数，则这里可以假设 c>0。
         # return 0.0 # 临时处理
         # 假设调用者保证 a > 1
-        if a <= 1: # 增加一个检查
-            print(f"警告: transformed_integrand_gamma 假定 a > 1，但接收到 a={a}")
-            return np.nan # 或者抛出错误
+    
+         print(f"警告: transformed_integrand_gamma 假定 a > 1，但接收到 a={a}")
+         return np.nan # 或者抛出错误
 
     # 处理 z 的边界
     if z < 0 or z > 1:
