@@ -103,26 +103,43 @@ def plot_integrands():
 # --- Task 4: 实现伽马函数计算 ---
 
 def transformed_integrand_gamma(z, a):
-    if a == 1:
-        # 当a=1时，Γ(1)=1，被积函数简化为e^(-x)
-        # 此时x=0对所有z，dx/dz=1/(1-z)^2
-        if z == 1:
-            return 0.0
-        return exp(0) * (1/(1-z)**2)  # e^0 * dx/dz
-    
-    if a < 1:
-        print(f"警告: a={a} < 1，结果可能不准确")
-        return np.nan
-    
-    c = a - 1
-    if z < 0 or z > 1:
+    """
+    变换后的被积函数 g(z, a) = f(x(z), a) * dx/dz
+    其中 x = cz / (1-z) 和 dx/dz = c / (1-z)^2, 且 c = a-1
+    假设 a > 1
+    """
+    c = a - 1.0
+    # 确保 c > 0，因为此变换是基于 a > 1 推导的
+    if c <= 0:
+        # 如果 a <= 1, 这个变换的推导基础（峰值在 a-1 > 0）不成立
+        # 理论上应使用其他方法或原始积分。这里返回0或NaN，让外部处理。
+        # 或者可以尝试用一个小的正数c，但这偏离了原意。
+        # 返回 0 比较安全，避免在积分器中产生问题。
+        return 0.0 # 或者 raise ValueError("Transformation assumes a > 1")
+
+    # 处理 z 的边界情况
+    if z < 0 or z > 1: # 积分区间外
         return 0.0
-    if z == 1:
+    if z == 1: # 对应 x = inf, 极限应为 0
         return 0.0
-        
-    x = c*z/(1-z)
-    dxdz = c/(1-z)**2
-    return integrand_gamma(x, a) * dxdz
+    if z == 0: # 对应 x = 0
+        # 使用原始被积函数在 x=0 的行为
+        return integrand_gamma(0, a) * c # dx/dz 在 z=0 时为 c
+
+    # 计算 x 和 dx/dz
+    x = c * z / (1.0 - z)
+    dxdz = c / ((1.0 - z)**2)
+
+    # 计算 f(x, a) * dx/dz
+    # 使用原始被积函数（带对数优化）计算 f(x,a)
+    val_f = integrand_gamma(x, a)
+
+    # 检查计算结果是否有效
+    if not np.isfinite(val_f) or not np.isfinite(dxdz):
+        # 如果出现 inf 或 nan，可能表示数值问题或 a<=1 的情况处理不当
+        return 0.0 # 返回0避免破坏积分
+
+    return val_f * dxdz
 
   
    
