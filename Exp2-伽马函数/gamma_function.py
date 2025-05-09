@@ -119,26 +119,32 @@ def transformed_integrand_gamma(z, a):
         - 计算 f(x(z), a) 时可以调用上面实现的 integrand_gamma 函数。
         - 处理 z=0 和 z=1 的边界情况。
     """
-    c = a - 1.0
-    if c <= 0:
-       if a <= 1:
-           print(f"警告: transformed_integrand_gamma 假定 a > 1，但接收到 a={a}")
-           return np.nan
-
+   def transformed_integrand_gamma(z, a):
+    """
+    改进后的变换被积函数，正确处理a=1的情况
+    """
+    if a == 1:
+        # 当a=1时，Γ(1)=1，被积函数简化为e^(-x)
+        # 此时x=0对所有z，dx/dz=1/(1-z)^2
+        if z == 1:
+            return 0.0
+        return exp(0) * (1/(1-z)**2)  # e^0 * dx/dz
+    
+    if a < 1:
+        print(f"警告: a={a} < 1，结果可能不准确")
+        return np.nan
+    
+    c = a - 1
     if z < 0 or z > 1:
         return 0.0
     if z == 1:
         return 0.0
+        
+    x = c*z/(1-z)
+    dxdz = c/(1-z)**2
+    return integrand_gamma(x, a) * dxdz
 
-    x = c*z / (1-z)
-    dxdz = c / (1-z)**2
-    val_f = integrand_gamma(x, a)
-    result = val_f * dxdz
-
-    if not np.isfinite(result):
-        return 0.0
-    return result
-
+  
    
 def gamma_function(a):
     """
