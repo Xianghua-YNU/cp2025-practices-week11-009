@@ -103,9 +103,6 @@ def plot_integrands():
 # --- Task 4: 实现伽马函数计算 ---
 
 def transformed_integrand_gamma(z, a):
-   
-    改进后的变换被积函数，正确处理a=1的情况
-    """
     if a == 1:
         # 当a=1时，Γ(1)=1，被积函数简化为e^(-x)
         # 此时x=0对所有z，dx/dz=1/(1-z)^2
