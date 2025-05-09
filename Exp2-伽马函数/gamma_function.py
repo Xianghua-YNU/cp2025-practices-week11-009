@@ -6,9 +6,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 # TODO: 导入数值积分函数 (例如: from scipy.integrate import quad)
-# from scipy.integrate import quad
+from scipy.integrate import quad
 # TODO: 导入可能需要的数学函数 (例如: from math import ...)
-# from math import factorial, sqrt, pi, exp, log
+from math import factorial, sqrt, pi, exp, log
 
 # --- Task 1: 绘制被积函数 ---
 
@@ -52,9 +52,7 @@ def integrand_gamma(x, a):
         return np.nan
 
     # 临时返回值，需要替换
-    return 0.0
-
-
+   
 def plot_integrands():
     """绘制 a=2, 3, 4 时的被积函数图像"""
     x_vals = np.linspace(0.01, 10, 400) # 从略大于0开始
