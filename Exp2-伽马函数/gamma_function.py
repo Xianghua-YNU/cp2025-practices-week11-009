@@ -62,7 +62,7 @@ def plot_integrands():
     for a_val in [2, 3, 4]:
         print(f"  计算 a = {a_val}...")
         # TODO: 计算 y_vals = [integrand_gamma(x, a_val) for x in x_vals]
-        y_vals = np.zeros_like(x_vals) # Placeholder
+        y_vals =  [integrand_gamma(x, a_val) for x in x_vals]
         plt.plot(x_vals, y_vals, label=f'$a = {a_val}$')
         peak_x = a_val - 1
         if peak_x > 0:
