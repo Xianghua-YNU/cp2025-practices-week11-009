@@ -120,8 +120,8 @@ def transformed_integrand_gamma(z, a):
         - 处理 z=0 和 z=1 的边界情况。
     """
     # TODO: 实现变换后的被积函数计算逻辑
-  if a == 1:
-     if z == 1:
+   if a == 1:
+       if z == 1:
          return 0.0
      return 0.0 
 
