@@ -25,7 +25,8 @@ def calculate_sigma(length, mass):
         面密度 (kg/m^2)
     """
     # TODO: 实现面密度计算公式
-    pass
+    #计算面密度
+    return mass / (length**2)
 
 def integrand(x, y, z):
     """
@@ -39,7 +40,8 @@ def integrand(x, y, z):
         积分核函数值
     """
     # TODO: 实现积分核函数
-    pass
+    #被积函数
+    return 1 / (x**2 + y**2 + z**2)**1.5
 
 def gauss_legendre_integral(length, z, n_points=100):
     """
@@ -59,7 +61,22 @@ def gauss_legendre_integral(length, z, n_points=100):
         3. 实现双重循环计算二重积分
     """
     # TODO: 实现高斯-勒让德积分
-    pass
+    """使用高斯-勒让德求积计算二重积分"""
+    # 获取高斯点和权重
+    xi, wi = np.polynomial.legendre.leggauss(n_points)
+    
+    # 变换到积分区间 [-L/2, L/2]
+    x = xi * (length/2)
+    w = wi * (length/2)
+    
+    # 计算二重积分
+    integral = 0.0
+    for i in range(n_points):
+        for j in range(n_points):
+            integral += w[i] * w[j] * integrand(x[i], x[j], z)
+            
+    return integral
+
 
 def calculate_force(length, mass, z, method='gauss'):
     """
@@ -77,7 +94,20 @@ def calculate_force(length, mass, z, method='gauss'):
     # TODO: 调用面密度计算函数
     # TODO: 根据method选择积分方法
     # TODO: 返回最终引力值
-    pass
+    #计算z高度处的引力F_z
+    sigma = calculate_sigma(length, mass)
+    
+    if method == 'gauss':
+        integral = gauss_legendre_integral(length, z)
+    else:
+        # 可以使用scipy作为备选方案
+        from scipy.integrate import dblquad
+        integral, _ = dblquad(lambda y, x: integrand(x, y, z),
+                            -length/2, length/2,
+                            lambda x: -length/2, lambda x: length/2)
+    
+    return G * sigma * z * integral
+
 
 def plot_force_vs_height(length, mass, z_min=0.1, z_max=10, n_points=100):
     """
@@ -95,7 +125,30 @@ def plot_force_vs_height(length, mass, z_min=0.1, z_max=10, n_points=100):
     # TODO: 绘制曲线图
     # TODO: 添加理论极限线
     # TODO: 设置图表标题和标签
-    pass
+    #使用两种方法绘制重力与高度的关系图
+    # Generate height points
+    z_values = np.linspace(z_min, z_max, n_points)
+    
+    # Calculate force using both methods
+    F_gauss = [calculate_force(length, mass, z, method='gauss') for z in z_values]
+    F_scipy = [calculate_force(length, mass, z, method='scipy') for z in z_values]
+    
+    # Plot results
+    plt.figure(figsize=(10, 6))
+    plt.plot(z_values, F_gauss, 'r-', label='Gauss-Legendre')
+    plt.plot(z_values, F_scipy, 'g:', label='Scipy dblquad')
+    
+    # Add theoretical limit line
+    sigma = calculate_sigma(length, mass)
+    plt.axhline(y=2*np.pi*G*sigma, color='r', linestyle=':', 
+               label='z→0 limit (2πGσ)')
+    
+    plt.xlabel('Height z (m)')
+    plt.ylabel('Gravitational Force F_z (N)')
+    plt.title('Comparison of Integration Methods')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 # 示例使用
 if __name__ == '__main__':
